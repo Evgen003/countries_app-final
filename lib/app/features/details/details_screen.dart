@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:countries_app/app/app.dart';
@@ -13,10 +15,59 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   final _detailsBloc = DetailsBloc(getIt<CountryDetailsRepository>());
+
+  final _favouritesBloc = getIt<FavouritesBloc>();
+
+  bool _isFavourite = false;
+
   @override
   void initState() {
-    _detailsBloc.add(const DetailsLoad());
+    _detailsBloc.stream.listen((state) {
+      if (state is DetailsLoadSuccess) {
+        _checkIfFavourite(state.details.wikiDataId);
+      }
+    });
     super.initState();
+    _detailsBloc.add(const DetailsLoad());
+  }
+
+  void _toggleFavourite(Details article) {
+    if (_isFavourite) {
+      _favouritesBloc.add(FavouritesDelete(article.wikiDataId));
+    } else {
+      _favouritesBloc.add(FavouritesAdd(
+          id: article.wikiDataId,
+          title: article.name,
+          image: article.code,
+          link: article.currencyCodes[0],
+          synopsis: article.name));
+    }
+    setState(() {
+      _isFavourite = !_isFavourite;
+    });
+  }
+
+  Future<void> _checkIfFavourite(String id) async {
+    final CollectionReference favorites =
+        FirebaseFirestore.instance.collection('favorites');
+
+    try {
+      QuerySnapshot snapshot = await favorites
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection('favourites')
+          .get();
+
+      bool isFavourite = snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList()
+          .any((favorite) => favorite['_id'] == id);
+
+      setState(() {
+        _isFavourite = isFavourite;
+      });
+    } on FirebaseException catch (e) {
+      throw e.message.toString();
+    }
   }
 
   @override
@@ -24,6 +75,25 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Подробности'),
+        actions: [
+          BlocBuilder<DetailsBloc, DetailsState>(
+            bloc: _detailsBloc,
+            builder: (context, state) {
+              return IconButton(
+                icon: Icon(
+                  _isFavourite ? Icons.favorite : Icons.favorite_border,
+                  color: _isFavourite ? Colors.red : null,
+                ),
+                onPressed: () {
+                  if (state is DetailsLoadSuccess) {
+                    Details details = state.details;
+                    _toggleFavourite(details);
+                  }
+                },
+              );
+            },
+          ),
+        ],
       ),
       body: BlocBuilder<DetailsBloc, DetailsState>(
         bloc: _detailsBloc,

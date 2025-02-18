@@ -15,7 +15,7 @@ class ArticleCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         // для следующей лабораторной работы
-        Endpoints.countryDetails = "countries/" + article.wikiDataId;
+        Endpoints.countryDetails = "countries/${article.wikiDataId}";
 
         context.go('/home/article/1');
       },

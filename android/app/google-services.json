@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1087454902030",
+    "project_id": "countries-apk-fc691",
+    "storage_bucket": "countries-apk-fc691.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087454902030:android:a76e5476cb4ee549a3895f",
+        "android_client_info": {
+          "package_name": "com.example.countries_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyHd1y4xJa1hKOTFe-SBIJc0Icy5I4J9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
