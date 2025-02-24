@@ -57,6 +57,16 @@ final GoRouter router = GoRouter(
               child: const FavouritesScreen(),
             );
           },
+          routes: [
+            GoRoute(
+                path: 'article/:id',
+                pageBuilder: (context, state) {
+                  return NoTransitionPage(
+                    key: state.pageKey,
+                    child: const DetailsScreen(),
+                  );
+                })
+          ],
         ),
       ],
     ),

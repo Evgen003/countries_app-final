@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:countries_app/di/di.dart';
 import 'package:equatable/equatable.dart';
 import 'package:countries_app/domain/domain.dart';
@@ -47,11 +49,14 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
     emit(FavouritesInProgress());
     try {
       await favouritesService.addFavorite(
-        id: event.id,
-        title: event.title,
-        image: event.image,
-        link: event.link,
-        synopsis: event.synopsis,
+        capital: event.capital,
+        code: event.code,
+        callingCode: event.callingCode,
+        currencyCodes: event.currencyCodes,
+        flagImageUri: event.flagImageUri,
+        name: event.name,
+        numRegions: event.numRegions,
+        wikiDataId: event.wikiDataId,
       );
       //emit(FavouritesSuccess());
       // final List<Article> favourites = (await favouritesService.getFavorites())

@@ -28,7 +28,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
         title: const Text('Favourites'),
       ),
       body: Container(
-        color: Colors.lightBlue[50],
+        color: Colors.white,
         child: BlocListener<FavouritesBloc, FavouritesState>(
           bloc: _favouritesBloc,
           listener: (context, state) {

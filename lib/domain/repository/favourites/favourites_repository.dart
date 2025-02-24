@@ -15,24 +15,29 @@ class FavouritesService extends FavouritesServiceInterface {
 
   @override
   Future<void> addFavorite({
-    required String id,
-    required String title,
-    required String image,
-    required String link,
-    required String synopsis,
+    required String capital,
+    required String code,
+    required String callingCode,
+    required List currencyCodes,
+    required String flagImageUri,
+    required String name,
+    required int numRegions,
+    required String wikiDataId,
   }) async {
     try {
       await favorites
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .collection('favourites')
-          .doc(id)
+          .doc(wikiDataId)
           .set({
-        '_id': id, // ТУТ ПОМЕНЯЛ
-        'title': title,
-        'image': image,
-        'link': link,
-        'timestamp': Timestamp.now(),
-        'synopsis': synopsis,
+        'capital': capital,
+        'code': code,
+        'callingCode': callingCode,
+        'currencyCodes': currencyCodes,
+        'flagImageUri': flagImageUri,
+        'name': name,
+        'numRegions': numRegions,
+        'wikiDataId': wikiDataId,
       });
     } on FirebaseException catch (e) {
       throw e.message.toString();

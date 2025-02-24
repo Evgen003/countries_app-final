@@ -33,28 +33,20 @@ class _FavouritesCardState extends State<FavouritesCard> {
       ),
       child: InkWell(
         onTap: () {
-          Endpoints.countryDetails = Endpoints.countryDetails
-              .replaceAll('ID', widget.article.wikiDataId.toString());
-          context.go('/home/article/${widget.article.wikiDataId}');
+          Endpoints.countryDetails = "countries/${widget.article.wikiDataId}";
+          context.go('/home/favourites/article/1');
         },
         borderRadius: BorderRadius.circular(5),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: Text(
-                widget.article.code,
-              ),
-            ),
-            const SizedBox(width: 20),
+            const SizedBox(width: 15),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     widget.article.name,
-                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),

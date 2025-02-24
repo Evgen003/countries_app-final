@@ -36,11 +36,15 @@ class _DetailsScreenState extends State<DetailsScreen> {
       _favouritesBloc.add(FavouritesDelete(article.wikiDataId));
     } else {
       _favouritesBloc.add(FavouritesAdd(
-          id: article.wikiDataId,
-          title: article.name,
-          image: article.code,
-          link: article.currencyCodes[0],
-          synopsis: article.name));
+        capital: article.capital,
+        code: article.code,
+        callingCode: article.callingCode,
+        currencyCodes: article.currencyCodes,
+        flagImageUri: article.flagImageUri,
+        name: article.name,
+        numRegions: article.numRegions,
+        wikiDataId: article.wikiDataId,
+      ));
     }
     setState(() {
       _isFavourite = !_isFavourite;
@@ -60,7 +64,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       bool isFavourite = snapshot.docs
           .map((doc) => doc.data() as Map<String, dynamic>)
           .toList()
-          .any((favorite) => favorite['_id'] == id);
+          .any((favorite) => favorite['wikiDataId'] == id);
 
       setState(() {
         _isFavourite = isFavourite;

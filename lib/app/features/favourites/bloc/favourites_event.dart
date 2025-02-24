@@ -9,22 +9,28 @@ sealed class FavouritesEvent extends Equatable {
 class FavouritesGet extends FavouritesEvent {}
 
 class FavouritesAdd extends FavouritesEvent {
-  final String id;
-  final String title;
-  final String image;
-  final String link;
-  final String synopsis;
+  final String capital;
+  final String code;
+  final String callingCode;
+  final List currencyCodes;
+  final String flagImageUri;
+  final String name;
+  final int numRegions;
+  final String wikiDataId;
 
   const FavouritesAdd({
-    required this.id,
-    required this.title,
-    required this.image,
-    required this.link,
-    required this.synopsis,
+    required this.capital,
+    required this.code,
+    required this.callingCode,
+    required this.currencyCodes,
+    required this.flagImageUri,
+    required this.name,
+    required this.numRegions,
+    required this.wikiDataId,
   });
 
   @override
-  List<Object?> get props => [id, title, image, link];
+  List<Object?> get props => [wikiDataId, capital, flagImageUri];
 }
 
 class FavouritesDelete extends FavouritesEvent {
